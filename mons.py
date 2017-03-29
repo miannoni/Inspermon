@@ -1,0 +1,2 @@
+lista_monstros = [["Lucas"],["Carlos"],["Matita"],["Rafa"],["Sa"],["Kim"],["Rebeca"],["Giu"],["Vini"],["Gab"],["Matheus"],["Rapha"],["Erick"],["Delchi"],["Phelipe"],["Matteo"],["Juliano"],["Vitinho"],["Vitao"],["Maluli"],["Samara"],["Ana"],["Stephanie"],["Duda"],["Tainara"],["Samuca"],["Scudiero"],["Pedrao"],["Biro"],["Tonim"],["Isa"],["Helio"],["Marco"],["Augusto"],["Leo"]]
+print(len(lista_monstros))
