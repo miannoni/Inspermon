@@ -3,7 +3,6 @@
 
 #ficha = [nome,tag,atq,atqE,res,resE,HPmax,HPatual,vel, nv ,exp,[skills]]
 #			0   1   2   3    4    5    6     7       8  9    10    11
-
 def Upando(ficha):
 	ficha[2] += insperdex[ficha[1]][3]
 	ficha[3] += insperdex[ficha[1]][5]
@@ -33,7 +32,6 @@ def DeclaraAtts(ficha):
 	return 0
 
 
-
 def GainEXP(ficha,expRecebido):
 	#Verificando se houve level up
 	if ((ficha[10] + expRecebido) >= (4/5)*(ficha[8]**3)) and ficha[9]<100:		
@@ -55,8 +53,11 @@ def GainEXP(ficha,expRecebido):
 			ficha = Upando(ficha)
 			DeclaraAtts(ficha)
 	#Add Experiencia
-	else:
+	elif ficha[9]<100:
 		ficha[10] += expRecebido
 		print("{0} Recebeu {1} pontos de experiencia!".format(ficha[0],expRecebido))
+	else:
+		ficha[10] = 0
 
 	return ficha
+	
