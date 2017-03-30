@@ -1,17 +1,14 @@
-import random
-import math
+import random,math
+from levelup import GainEXP
 
 #Extração dos DataBases
 #insperdex[] = [nome,tipo,atqi,atqm,atqEi,atqEm,defi,defm,defEi,defEm, HPi , HPm ,veli,velm,nvEVO]
 #				0    1    2   3     4     5     6    7    8    9      10    11   12   13    14
-insperdex = [0]
-insperdex.append(["Bulbasauro", "Planta", 6, 1.29, 6, 1.61, 6, 1.29, 6, 1.61, 12, 2.21, 6, 1.21, 101])
-insperdex.append(["Squirtle", "Agua", 6, 1.27, 6, 1.31, 6, 1.61, 6, 1.59, 6, 2.19, 6, 1.17, 101])
-
-skill_lista = [1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8]
 
 #ficha = [nome,tag,atq,atqE,res,resE,HPmax,HPatual,vel, nv ,exp,[skills]]
 #			0   1   2   3    4    5    6     7       8  9    10    11
+
+
 def fichaGen(dex,tag,nv,skills):
 	nome = dex[0]
 	atq = dex[2] + dex[3]*nv
@@ -24,39 +21,41 @@ def fichaGen(dex,tag,nv,skills):
 	ficha = [nome,tag,atq,atqE,res,resE,HPmax,HPatual,vel,nv,0, skills]
 	return ficha
 
+skill_lista = [1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8]
+insperdex = [0]
+insperdex.append(["Bulbasauro", "Planta", 6, 1.29, 6, 1.61, 6, 1.29, 6, 1.61, 12, 2.21, 6, 1.21, 101])
+insperdex.append(["Squirtle", "Planta", 6, 1.27, 6, 1.31, 6, 1.61, 6, 1.59, 6, 2.19, 6, 1.17, 101])
+
 def multiplyDMG(pokeAtack,pokeDefend):
 	multiply = 1
 	if insperdex[pokeAtack[1]][1] == "Planta": #Planta atacando
-		if insperdex[pokeDefend[1]][1] == "Fogo": #Fogo defendendo
-			multiply += 0.5*multiply
-			print(pokeAtack[0] + " não é muito eficiente contra " + pokeDefend[0])
-		elif insperdex[pokeDefend[1]][1] == "Agua": #Agua defendendo
-			multiply += -0.25*multiply
-			print(pokeAtack[0] + " é muito eficiente contra " + pokeDefend[0])
+	 	if insperdex[pokeDefend[1]][1] == "Fogo": #Fogo defendendo
+	 		multiply += -0.25*multiply
+	 		print(pokeAtack[0] + " não é muito eficiente contra " + pokeDefend[0])
+	 	elif insperdex[pokeDefend[1]][1] == "Agua": #Agua defendendo
+	 		multiply += 0.5*multiply
+	 		print(pokeAtack[0] + " é muito eficiente contra " + pokeDefend[0])
 
 	elif insperdex[pokeAtack[1]][1] == "Fogo": #Fogo atacando
-		if insperdex[pokeDefend[1]][1] == "Agua": #Agua defendendo
-			multiply += 0.5*multiply
-			print(pokeAtack[0] + " não é muito eficiente contra " + pokeDefend[0])
-		elif insperdex[pokeDefend[1]][1] == "Planta": #Planta defendendo
-			multiply += -0.25*multiply
-			print(pokeAtack[0] + " é muito eficiente contra " + pokeDefend[0])
+	 	if insperdex[pokeDefend[1]][1] == "Agua": #Agua defendendo
+	 		multiply += -0.25*multiply
+	 		print(pokeAtack[0] + " não é muito eficiente contra " + pokeDefend[0])
+	 	elif insperdex[pokeDefend[1]][1] == "Planta": #Planta defendendo
+	 		multiply += 0.5*multiply
+	 		print(pokeAtack[0] + " é muito eficiente contra " + pokeDefend[0])
 
 	elif insperdex[pokeAtack[1]][1] == "Agua": #Agua atacando
-		if insperdex[pokeDefend[1]][1] == "Planta": #Planta defendendo
-			multiply += 0.5*multiply
-			print(pokeAtack[0] + " não é muito eficiente contra " + pokeDefend[0])
-		elif insperdex[pokeDefend[1]][1] == "Fogo": #Fogo defendendo
-			multiply += -0.25*multiply
-			print(pokeAtack[0] + " é muito eficiente contra " + pokeDefend[0])
+	 	if insperdex[pokeDefend[1]][1] == "Planta": #Planta defendendo
+	 		multiply += -0.25*multiply
+	 		print(pokeAtack[0] + " não é muito eficiente contra " + pokeDefend[0])
+	 	elif insperdex[pokeDefend[1]][1] == "Fogo": #Fogo defendendo
+	 		multiply += 0.5*multiply
+	 		print(pokeAtack[0] + " é muito eficiente contra " + pokeDefend[0])
 
 	luck = random.randint(1,20)
 	if luck >= 19: #Critico
 		multiply += 1*multiply
 		print(pokeAtack[0] + " Critou!!")
-	elif luck <= 2: #Erro Critico
-		multiply += -0.5*multiply
-		print(pokeDefend[0] + " falhou em seu golpe!")
 	return multiply
 
 
@@ -67,7 +66,7 @@ def declaraHP(pokemon1,pokemon2):
 
 def turnoUser(pokemon1,pokemon2,atk):
 	userdmg = pokemon1[2]*skill_lista[pokemon1[11][atk - 1]]
-	userdmg = multiplyDMG(pokemon1,pokemon2)
+	userdmg =userdmg * multiplyDMG(pokemon1,pokemon2)
 	cpures = pokemon2[4]
 	if userdmg > cpures:
 		userdmg += - cpures
@@ -81,7 +80,7 @@ def turnoUser(pokemon1,pokemon2,atk):
 def turnoCPU(pokemon1,pokemon2):
 	cpudmg = pokemon2[2]*(skill_lista[random.randint(1,4) - 1])
 	userres = pokemon1[4]
-	userdmg = multiplyDMG(pokemon2,pokemon1)
+	cpudmg = cpudmg * multiplyDMG(pokemon2,pokemon1)
 	if cpudmg > userres:
 		cpudmg += - userres
 	else:
@@ -91,14 +90,16 @@ def turnoCPU(pokemon1,pokemon2):
 	print()
 	return pokemon1
 
+def VictUser(pokemon1,pokemon2):
+	pokemon1 = GainEXP(pokemon1,(pokemon2[9]*5))
+	return pokemon1
 
-
-poke1 = fichaGen(insperdex[1],1,20,[0,3,6,5])
-poke2 = fichaGen(insperdex[2],2,20,[1,2,4,7])
+def VictCPU(pokemon1,pokemon2):
+	print(pokemon2[0] + " ganhou!!\n")
+	pokemon1[7] = 0
+	return pokemon1
 
 def fight(pokemon1,pokemon2):
-	HPuser = pokemon1[7]
-	HPcpu = pokemon2[7]
 	declaraHP(pokemon1,pokemon2)
 	while (pokemon1[7] > 0) and (pokemon2[7] > 0):
 		move = input("lutar ou correr?\n")
@@ -110,22 +111,22 @@ def fight(pokemon1,pokemon2):
 			if (pokemon1[8] > pokemon2[8]): #Comparando Speed
 				pokemon2 = turnoUser(pokemon1,pokemon2,atk)
 				if pokemon2[7] <= 0:#CPU morreu?
-					print(pokemon1[0] + " ganhou!!\n")
+					VictUser(pokemon1,pokemon2)
 					break
 				pokemon1 = turnoCPU(pokemon1,pokemon2)
 				if pokemon1[7] <= 0:#Player Morreu?
-					print(pokemon2[0] + " ganhou!!\n")
+					VictCPU(pokemon1,pokemon2)
 					break
 				declaraHP(pokemon1,pokemon2)
 			#Primeiro Turno = CPU
 			else:
 				pokemon1 = turnoCPU(pokemon1,pokemon2)
 				if pokemon1[7] <= 0:#Player Morreu?
-					print(pokemon2[0] + " ganhou!!\n")
+					VictCPU(pokemon1,pokemon2)
 					break
 				pokemon2 = turnoUser(pokemon1,pokemon2,atk)
 				if pokemon2[7] <= 0:#CPU Morreu?
-					print(pokemon1[0] + " ganhou!!\n")
+					VictUser(pokemon1,pokemon2)
 					break
 				declaraHP(pokemon1,pokemon2)
 
@@ -134,15 +135,14 @@ def fight(pokemon1,pokemon2):
 			#Sucesso na Fuga
 			if random.randint(1,4) == 2:
 				print("\nVoce correu com sucesso!\n")
+				pokemon1[7] = 0
 				break
 			#Falha na Fuga
 			else:
 				print("\nNao foi possivel correr!\n")
 				pokemon1 = turnoCPU(pokemon1,pokemon2)
 				if pokemon1[7] <= 0: #Player Morreu?
-					print(pokemon2[0] + " ganhou!!\n")
+					VictCPU(pokemon1,pokemon2)
 					break
 				declaraHP(pokemon1,pokemon2)
 	return pokemon1
-
-fight(poke1,poke2)
