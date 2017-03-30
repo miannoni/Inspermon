@@ -135,7 +135,6 @@ def fight(pokemon1,pokemon2):
 			#Sucesso na Fuga
 			if random.randint(1,4) == 2:
 				print("\nVoce correu com sucesso!\n")
-				pokemon1[7] = 0
 				break
 			#Falha na Fuga
 			else:
