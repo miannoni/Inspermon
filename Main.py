@@ -6,7 +6,7 @@ def print_slow(str):
         sys.stdout.write(letter)
         sys.stdout.flush()
         time.sleep(0.1)
-#
+##
 def print_fast(str):
     for letter in str:
         sys.stdout.write(letter)
