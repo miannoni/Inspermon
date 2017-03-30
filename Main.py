@@ -12,7 +12,7 @@ def print_fast(str):
         sys.stdout.write(letter)
         sys.stdout.flush()
         time.sleep(0.05)
-
+##
 def recuphp():
 	return
 
